@@ -103,15 +103,20 @@ button.navbar-toggler {
             @livewire('price-filter')
         </div>
     </div>
-          <div class="side-panel">
-            <h5 class="card-title">Categories</h5>
-            <ul class="list-unstyled">
-              @foreach ($categories as $category)
-              <li><a href="{{ route('prod.sort', $category->id) }}">{{ $category->name }}</a>
+    <div class="side-panel">
+      <h5 class="card-title">Categories</h5>
+      <div>
+        <ul class="list-unstyled">
+          @foreach ($categories as $category)
+              <li>
+                  <a href="{{ route('prod.sort', $category->id) }}" class="btn btn-category mt-3 mb-2" style="background-color: #F2BA52; color: black;">{{ $category->name }}</a>
               </li>
-                @endforeach
-            </ul>
-          </div>
+          @endforeach
+      </ul>
+      
+    </div>
+    {{ $categories->links('pagination::bootstrap-4') }}
+    </div>
           
         </div>
         <div class="col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
@@ -137,27 +142,10 @@ button.navbar-toggler {
           </div>
           
         
-        
+          {{ $products->links('pagination::bootstrap-4') }}
     </div>
     </div>
       </div>
-      
-      <!-- accessories -->
-      <div class="container-fluid p-0">
-        <div class="row no-gutters">
-          <div class="col-12" style="overflow-x: scroll;">
-            <div class="d-flex">
-              <div class="p-2">Item 1</div>
-              <div class="p-2">Item 2</div>
-              <div class="p-2">Item 3</div>
-              <div class="p-2">Item 4</div>
-              <div class="p-2">Item 5</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- accesories  -->
       
   
     

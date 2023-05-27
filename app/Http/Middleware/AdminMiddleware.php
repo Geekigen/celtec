@@ -17,13 +17,11 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $adminEmail = env('ADMIN_EMAIL');
-        $user = Auth::user();
+        $adminMail= Env('ADMIN_MAIL');
+        if ($request->user()->email != $adminMail ) {
+            return redirect()->back()->with('status',"Access denied ");
 
-        if ($user && $user->email === $adminEmail) {
-            return redirect('/admin');
         }
-
         return $next($request);
     }
 }

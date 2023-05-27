@@ -186,7 +186,41 @@ button.navbar-toggler {
     </div>
       </div>
       
-      <!-- accessories -->
+      {{-- <div class="container-fluid p-0">
+        @forelse ($category1 as $category )
+        <div class="text-center mt-4 d-flex justify-content-between align-items-center" style=" background-color: #F2884B; ">
+          <h2 style="color: black; padding: 10px; margin-right: auto;">{{$category->name}}</h2>
+          <a href="{{ route('prod.sort', $category->id) }}" class="ml-auto text-dark"> <h3>See All</h3></a>
+        </div>
+        
+        @empty
+          <div></div>
+        @endforelse
+          <div class="row">
+            @foreach ($cat1 as $product)
+              <div class="col-6 col-md-4 col-lg-2 item container">
+                <div class="card">
+                  <a href="{{ route('products.show', $product->id) }}" class="text-black">
+                    @if ($product->images->count() > 0)
+                    <img style="height:200px; width:200px; object-fit:contain;" src="{{ asset('images/' . $product->images[0]->filename) }}" class="card-img-top image-responsive img-fluid" alt="{{ $product->title }}">
+                    @else
+                      <img src="placeholder.jpg" class="card-img-top img-fluid" alt="Placeholder Image">
+                    @endif
+                    <div class="card-body">
+                      <h5 class="card-title text-dark">{{ $product->title }}</h5>
+                      <p class="card-text text-dark">{{ $product->description }}</p>
+                      <button class="add-to-cart btn" style="display: none">
+                        <a href="/add-to-cart/{{ $product->id }}" class="text-white">Add to Cart</a>
+                      </button>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            @endforeach
+          </div>
+          
+      </div>
+      <!-- accessories --> --}}
       <div class="container-fluid p-0">
         @forelse ($category2 as $category )
         <div class="text-center mt-4 d-flex justify-content-between align-items-center" style=" background-color: #F2884B; ">
@@ -199,7 +233,7 @@ button.navbar-toggler {
         @endforelse
        
           <div class="row">
-            @foreach ($popular as $product)
+            @foreach ($cat2 as $product)
               <div class="col-6 col-md-4 col-lg-2 item container">
                 <div class="card">
                   <a href="{{ route('products.show', $product->id) }}" class="text-black">
@@ -226,7 +260,7 @@ button.navbar-toggler {
       <!-- accesories  -->
       
       <div class="container-fluid p-0">
-        @forelse ($category2 as $category )
+        @forelse ($category3 as $category )
         <div class="text-center mt-4 d-flex justify-content-between align-items-center" style=" background-color: #F2884B; ">
           <h2 style="color: black; padding: 10px; margin-right: auto;">{{$category->name}}</h2>
           <a href="{{ route('prod.sort', $category->id) }}" class="ml-auto text-dark"> <h3>See All</h3></a>
@@ -236,7 +270,7 @@ button.navbar-toggler {
           <div></div>
         @endforelse
           <div class="row">
-            @foreach ($popular as $product)
+            @foreach ($cat3 as $product)
               <div class="col-6 col-md-4 col-lg-2 item container">
                 <div class="card">
                   <a href="{{ route('products.show', $product->id) }}" class="text-black">
@@ -260,7 +294,7 @@ button.navbar-toggler {
           
       </div>
       <div class="container-fluid p-0">
-        @forelse ($category2 as $category )
+        @forelse ($category4 as $category )
         <div class="text-center mt-4 d-flex justify-content-between align-items-center" style=" background-color: #F2884B; ">
           <h2 style="color: black; padding: 10px; margin-right: auto;">{{$category->name}}</h2>
           <a href="{{ route('prod.sort', $category->id) }}" class="ml-auto text-dark"> <h3>See All</h3></a>
@@ -270,7 +304,7 @@ button.navbar-toggler {
           <div></div>
         @endforelse
           <div class="row">
-            @foreach ($popular as $product)
+            @foreach ($cat4 as $product)
               <div class="col-6 col-md-4 col-lg-2 item container">
                 <div class="card">
                   <a href="{{ route('products.show', $product->id) }}" class="text-black">
@@ -294,7 +328,7 @@ button.navbar-toggler {
           
       </div>
       <div class="container-fluid p-0">
-        @forelse ($category2 as $category )
+        @forelse ($category5 as $category )
         <div class="text-center mt-4 d-flex justify-content-between align-items-center" style=" background-color: #F2884B; ">
           <h2 style="color: black; padding: 10px; margin-right: auto;">{{$category->name}}</h2>
           <a href="{{ route('prod.sort', $category->id) }}" class="ml-auto text-dark"> <h3>See All</h3></a>
@@ -304,7 +338,7 @@ button.navbar-toggler {
           <div></div>
         @endforelse
           <div class="row">
-            @foreach ($popular as $product)
+            @foreach ($cat5 as $product)
               <div class="col-6 col-md-4 col-lg-2 item container">
                 <div class="card">
                   <a href="{{ route('products.show', $product->id) }}" class="text-black">
@@ -328,7 +362,7 @@ button.navbar-toggler {
           
       </div>
       <div class="container-fluid p-0">
-        @forelse ($category2 as $category )
+        @forelse ($category6 as $category )
         <div class="text-center mt-4 d-flex justify-content-between align-items-center" style=" background-color: #F2884B; ">
           <h2 style="color: black; padding: 10px; margin-right: auto;">{{$category->name}}</h2>
           <a href="{{ route('prod.sort', $category->id) }}" class="ml-auto text-dark"> <h3>See All</h3></a>
@@ -338,7 +372,7 @@ button.navbar-toggler {
           <div></div>
         @endforelse
           <div class="row">
-            @foreach ($popular as $product)
+            @foreach ($cat6 as $product)
               <div class="col-6 col-md-4 col-lg-2 item container">
                 <div class="card">
                   <a href="{{ route('products.show', $product->id) }}" class="text-black">
@@ -361,40 +395,7 @@ button.navbar-toggler {
           </div>
           
       </div>
-      <div class="container-fluid p-0">
-        @forelse ($category2 as $category )
-        <div class="text-center mt-4 d-flex justify-content-between align-items-center" style=" background-color: #F2884B; ">
-          <h2 style="color: black; padding: 10px; margin-right: auto;">{{$category->name}}</h2>
-          <a href="{{ route('prod.sort', $category->id) }}" class="ml-auto text-dark"> <h3>See All</h3></a>
-        </div>
-        
-        @empty
-          <div></div>
-        @endforelse
-          <div class="row">
-            @foreach ($popular as $product)
-              <div class="col-6 col-md-4 col-lg-2 item container">
-                <div class="card">
-                  <a href="{{ route('products.show', $product->id) }}" class="text-black">
-                    @if ($product->images->count() > 0)
-                    <img style="height:200px; width:200px; object-fit:contain;" src="{{ asset('images/' . $product->images[0]->filename) }}" class="card-img-top image-responsive img-fluid" alt="{{ $product->title }}">
-                    @else
-                      <img src="placeholder.jpg" class="card-img-top img-fluid" alt="Placeholder Image">
-                    @endif
-                    <div class="card-body">
-                      <h5 class="card-title text-dark">{{ $product->title }}</h5>
-                      <p class="card-text text-dark">{{ $product->description }}</p>
-                      <button class="add-to-cart btn" style="display: none">
-                        <a href="/add-to-cart/{{ $product->id }}" class="text-white">Add to Cart</a>
-                      </button>
-                    </div>
-                  </a>
-                </div>
-              </div>
-            @endforeach
-          </div>
-          
-      </div>
+      
     
     <!-- end footer -->
       @include('layouts.footerclient')

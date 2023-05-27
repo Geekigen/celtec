@@ -13,8 +13,8 @@ class ProductsController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {   $categories = Category::all();
-        $products =Product::all();
+    {   $categories = Category::paginate('3');
+        $products =Product::paginate('40');
         return view('products.index',compact('products','categories'));
     }
 

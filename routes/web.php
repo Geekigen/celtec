@@ -48,22 +48,24 @@ Route::get('cart', [CartController::class, 'cart'])->name('cart');
 Route::get('add-to-cart/{id}',[CartController::class, 'addToCart'])->name('add.to.cart');
 Route::patch('update-cart',[CartController::class, 'update'])->name('update.cart');
 Route::delete('remove-from-cart',[CartController::class, 'remove'])->name('remove.from.cart');
-    Route::get('/category', CategoriesComponent::class)->name('categories');
-    Route::get('/createprod', ProductsComponent::class)->name('products');
-    Route::get('/location-price', LocationPriceForm::class)->name('location-price');
-    Route::get('/admin', [AdminController::class, 'index']);
     Route::get('/myorders', [ClientOrderController::class, 'index'])->name('myorders');
     // web.php
 
 Route::get('orders/{order}', [ClientOrderController::class, 'show'])->name('orders.show');
 Route::post('/save-rating', [RatingController::class,'saveRate'])->name('saveRating');
 Route::get('/prod/sort/{categoryId}', [ProductsController::class, 'sort'])->name('prod.sort');
-Route::get('/adimage-upload', ImageAd::class)->name('adimage.upload');
-Route::get('/writeblog', BlogComponent::class)->name('writeblog');
 Route::get('/blogs', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/blogs/{id}', [BlogController::class, 'show'])->name('blog.show');
 });
-
+// admin
+Route::middleware('auth','admin')->group(function () {
+    Route::get('/adimage-upload', ImageAd::class)->name('adimage.upload');
+    Route::get('/writeblog', BlogComponent::class)->name('writeblog');
+    Route::get('/category', CategoriesComponent::class)->name('categories');
+    Route::get('/createprod', ProductsComponent::class)->name('products');
+    Route::get('/location-price', LocationPriceForm::class)->name('location-price');
+    Route::get('/admin', [AdminController::class, 'index']);
+});
 Route::middleware(['checkAdminEmail'])->group(function () {
     // Admin panel routes
     // Route::get('/admin', [AdminController::class, 'index']);
