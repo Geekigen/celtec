@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->longText('cart_id');
             $table->unsignedBigInteger('user_id');
-            $table->text('order_array');
+            $table->longText('order_array');
             $table->string('official_name');
             $table->string('location');
             $table->string('phone_number');

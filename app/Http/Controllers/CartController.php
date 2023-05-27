@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OrderPlaced;
+use App\Models\LocationPrice;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\Wishlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class CartController extends Controller
 {
@@ -60,7 +64,7 @@ public function remove(Request $request)
 
 public function wishlist(Request $request)
 {
-
+    $location = LocationPrice::all();
     $data = $request->session()->all();
     $sessionId = $request->session()->getId();
     foreach ($data['cart'] as $cart) {
@@ -72,7 +76,55 @@ $wish->product_id=$cart['id'];
 $wish->save();
 } 
 
-return view('checkout');
+return view('checkout',compact('location'));
 }
+
+
+public function order(Request $request)
+{
+    $this->validate($request, [
+        'location'=>'Required|string',
+        'number' =>'Required| min:10|max:13',
+        'name'=>'Required|string'
+        ]);
+        $selectedLocationId=$request->input('location');
+        $selectedLocation = LocationPrice::findOrFail($selectedLocationId);
+        $data = $request->session()->all();
+        $total = 0;
+
+        foreach ($data['cart'] as $item) {
+            $quantity = $item['quantity'];
+            $price = $item['price'];
+        
+            $subtotal = $quantity * $price;
+            $total += $subtotal;
+        }
+        $sessionId = $request->session()->getId();
+        
+        $order = new Order();
+        $order->cart_id = $sessionId;
+        $order->user_id = Auth::user()->id;
+        $order->order_array = json_encode($data['cart']);
+        $order->official_name = $request->input('name');
+        $order->location = $selectedLocation->location;
+        $order->phone_number = $request->input('number');
+        $order->delivery_fee = $selectedLocation->price; // Set the delivery fee to 0 for now, you can modify this based on your business logic
+        $order->total = $total + $selectedLocation->price; // Calculate the total based on price and quantity
+        $order->pay_status = 0; 
+        $order->status = 'pending'; // Set the status to 'pending' for now, you can modify this based on your business logic
+        
+        $order->save();
+          // Send email to the user
+    $user = Auth::user();
+    Mail::to($user->email)->send(new OrderPlaced($order));
+    
+    // Send email to the admin
+    $adminEmail = 'kigencaleb50@gmail.com'; // Replace with the admin's email address
+    Mail::to($adminEmail)->send(new OrderPlaced($order));
+        
+        $request->session()->forget('cart');
+        
+        return redirect('/')->with('status', __('Thank you for your purchase'));
+    }
 
 }

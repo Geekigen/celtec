@@ -91,57 +91,96 @@ button.navbar-toggler {
 
     </style>
 </head>
-
 <body>  
   @include('layouts.navclient')
+  <div class="row "  style="height: 50%; background-color: rgba(217, 107, 98, 0.3);">
+    <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+      <div class="side-panel">
+        <h5 class="card-title">Categories</h5>
+        <div>
+          <ul class="list-unstyled">
+            @foreach ($categories as $category)
+                <li>
+                    <a href="{{ route('prod.sort', $category->id) }}" class="btn btn-category mt-3 mb-2" style="background-color: #F2BA52; color: black;">{{ $category->name }}</a>
+                </li>
+            @endforeach
+        </ul>
+        
+      </div>
+      {{ $categories->links('pagination::bootstrap-4') }}
+      </div>
+    </div>
+    <div id="carouselExampleIndicators" class="carousel slide col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9" data-ride="carousel">
+      <ol class="carousel-indicators">
+        @foreach ($Ads as $index => $ad)
+          <li data-target="#carouselExampleIndicators" data-slide-to="{{ $index }}" class="{{ $index == 0 ? 'active' : '' }}"></li>
+        @endforeach
+      </ol>
+      <div class="carousel-inner">
+        @foreach ($Ads as $index => $ad)
+          <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+            <img style="height:300px; width:750px; object-fit:contain;" class="d-block w-100 h-auto lg:w-auto lg:h-1/2" src="{{ asset('images/' . $ad->filepath) }}" alt="Slide {{ $index + 1 }}">
+
+
+          </div>
+        @endforeach
+      </div>
+      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+    
+    </div>
       <div class="container-fluid midsection">
+    
       <div class="row">
         <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+          
           <div class="filter p-3 d-flex justify-content-between">
-            <div>Filter by price:</div>
-            <div class="form-group">
-              <select class="form-control">
-                <option>All</option>
-                <option>$0-$50</option>
-                <option>$51-$100</option>
-                <option>$101-$200</option>
-                <option>$201+</option>
-              </select>
-            </div>
-          </div>
-          
-          <div class="side-panel">
-            <h5 class="card-title">Categories</h5>
-            <ul class="list-unstyled">
-              <li><a href="#" class="category-button">Category 1</a></li>
-              <li><a href="#" class="category-button">Category 2</a></li>
-              <li><a href="#" class="category-button">Category 3</a></li>
-              <li><a href="#" class="category-button">Category 4</a></li>
-              <li><a href="#" class="category-button">Category 5</a></li>
-            </ul>
-          </div>
+       
+        <div class="form-group">
+            @livewire('price-filter')
+        </div>
+    </div>
+         
           
         </div>
-        <div class="col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
-          <!-- Main Content -->
+        
+        <div class="col-9 col-sm-6 col-md-9 col-lg-9 col-xl-9">
+          <div class="text-center mt-4">
+            <h2 style="color: black; background-color: #F2884B; padding: 10px;">Popular Products</h2>
+          </div>
+          
           <div class="row">
-            @foreach($products as $product)
-                <div class="col-sm-3 col-md-3 col-lg-3 item">
-                    <div class="card">
-                        @if($product->images->count() > 0)
-                            <img style="height:200px;width:200px; object-fit:contain;" src="{{ asset('images/' . $product->images[0]->filename) }}" class="card-img-top" alt="{{ $product->title }}">
-                        @else
-                            <img src="placeholder.jpg" class="card-img-top" alt="Placeholder Image">
-                        @endif
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $product->title }}</h5>
-                            <p class="card-text">{{ $product->description }}</p>
-                            <button class="add-to-cart btn" style="display:none"> <a href="/add-to-cart/{{ $product->id }} ">Add to Cart</a></button>
-                        </div>
+            @foreach ($popular as $product)
+              <div class="col-sm-6 col-md-3 col-lg-3 item container">
+                <div class="card">
+                  <a href="{{ route('products.show', $product->id) }}" class="text-black">
+                    @if ($product->images->count() > 0)
+                      <img style="height:200px; width:200px; object-fit:contain;" src="{{ asset('images/' . $product->images[0]->filename) }}" class="card-img-top image-responsive img-fluid" alt="{{ $product->title }}">
+                    @else
+                      <img src="placeholder.jpg" class="card-img-top img-fluid" alt="Placeholder Image">
+                    @endif
+                    <div class="card-body">
+                      <h5 class="card-title text-dark">{{ $product->title }}</h5>
+                      <p class="card-text text-dark">{{ $product->description }}</p>
+                      <button class="add-to-cart btn" style="display:none">
+                        <a href="/add-to-cart/{{ $product->id }}" class="text-white">Add to Cart</a>
+                      </button>
                     </div>
+                  </a>
                 </div>
+              </div>
             @endforeach
-        </div>
+          </div>
+
+          
+          {{-- {{ $products->links('pagination::bootstrap-4') }} --}}
         
     </div>
     </div>
@@ -149,22 +188,213 @@ button.navbar-toggler {
       
       <!-- accessories -->
       <div class="container-fluid p-0">
-        <div class="row no-gutters">
-          <div class="col-12" style="overflow-x: scroll;">
-            <div class="d-flex">
-              <div class="p-2">Item 1</div>
-              <div class="p-2">Item 2</div>
-              <div class="p-2">Item 3</div>
-              <div class="p-2">Item 4</div>
-              <div class="p-2">Item 5</div>
-            </div>
-          </div>
+        @forelse ($category2 as $category )
+        <div class="text-center mt-4 d-flex justify-content-between align-items-center" style=" background-color: #F2884B; ">
+          <h2 style="color: black; padding: 10px; margin-right: auto;">{{$category->name}}</h2>
+          <a href="{{ route('prod.sort', $category->id) }}" class="ml-auto text-dark"> <h3>See All</h3></a>
         </div>
+        
+        @empty
+          <div></div>
+        @endforelse
+       
+          <div class="row">
+            @foreach ($popular as $product)
+              <div class="col-6 col-md-4 col-lg-2 item container">
+                <div class="card">
+                  <a href="{{ route('products.show', $product->id) }}" class="text-black">
+                    @if ($product->images->count() > 0)
+                    <img style="height:200px; width:200px; object-fit:contain;" src="{{ asset('images/' . $product->images[0]->filename) }}" class="card-img-top image-responsive img-fluid" alt="{{ $product->title }}">
+                    @else
+                      <img src="placeholder.jpg" class="card-img-top img-fluid" alt="Placeholder Image">
+                    @endif
+                    <div class="card-body">
+                      <h5 class="card-title text-dark">{{ $product->title }}</h5>
+                      <p class="card-text text-dark">{{ $product->description }}</p>
+                      <button class="add-to-cart btn" style="display: none">
+                        <a href="/add-to-cart/{{ $product->id }}" class="text-white">Add to Cart</a>
+                      </button>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            @endforeach
+          </div>
+          
       </div>
       
       <!-- accesories  -->
       
-  
+      <div class="container-fluid p-0">
+        @forelse ($category2 as $category )
+        <div class="text-center mt-4 d-flex justify-content-between align-items-center" style=" background-color: #F2884B; ">
+          <h2 style="color: black; padding: 10px; margin-right: auto;">{{$category->name}}</h2>
+          <a href="{{ route('prod.sort', $category->id) }}" class="ml-auto text-dark"> <h3>See All</h3></a>
+        </div>
+        
+        @empty
+          <div></div>
+        @endforelse
+          <div class="row">
+            @foreach ($popular as $product)
+              <div class="col-6 col-md-4 col-lg-2 item container">
+                <div class="card">
+                  <a href="{{ route('products.show', $product->id) }}" class="text-black">
+                    @if ($product->images->count() > 0)
+                    <img style="height:200px; width:200px; object-fit:contain;" src="{{ asset('images/' . $product->images[0]->filename) }}" class="card-img-top image-responsive img-fluid" alt="{{ $product->title }}">
+                    @else
+                      <img src="placeholder.jpg" class="card-img-top img-fluid" alt="Placeholder Image">
+                    @endif
+                    <div class="card-body">
+                      <h5 class="card-title text-dark">{{ $product->title }}</h5>
+                      <p class="card-text text-dark">{{ $product->description }}</p>
+                      <button class="add-to-cart btn" style="display: none">
+                        <a href="/add-to-cart/{{ $product->id }}" class="text-white">Add to Cart</a>
+                      </button>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            @endforeach
+          </div>
+          
+      </div>
+      <div class="container-fluid p-0">
+        @forelse ($category2 as $category )
+        <div class="text-center mt-4 d-flex justify-content-between align-items-center" style=" background-color: #F2884B; ">
+          <h2 style="color: black; padding: 10px; margin-right: auto;">{{$category->name}}</h2>
+          <a href="{{ route('prod.sort', $category->id) }}" class="ml-auto text-dark"> <h3>See All</h3></a>
+        </div>
+        
+        @empty
+          <div></div>
+        @endforelse
+          <div class="row">
+            @foreach ($popular as $product)
+              <div class="col-6 col-md-4 col-lg-2 item container">
+                <div class="card">
+                  <a href="{{ route('products.show', $product->id) }}" class="text-black">
+                    @if ($product->images->count() > 0)
+                    <img style="height:200px; width:200px; object-fit:contain;" src="{{ asset('images/' . $product->images[0]->filename) }}" class="card-img-top image-responsive img-fluid" alt="{{ $product->title }}">
+                    @else
+                      <img src="placeholder.jpg" class="card-img-top img-fluid" alt="Placeholder Image">
+                    @endif
+                    <div class="card-body">
+                      <h5 class="card-title text-dark">{{ $product->title }}</h5>
+                      <p class="card-text text-dark">{{ $product->description }}</p>
+                      <button class="add-to-cart btn" style="display: none">
+                        <a href="/add-to-cart/{{ $product->id }}" class="text-white">Add to Cart</a>
+                      </button>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            @endforeach
+          </div>
+          
+      </div>
+      <div class="container-fluid p-0">
+        @forelse ($category2 as $category )
+        <div class="text-center mt-4 d-flex justify-content-between align-items-center" style=" background-color: #F2884B; ">
+          <h2 style="color: black; padding: 10px; margin-right: auto;">{{$category->name}}</h2>
+          <a href="{{ route('prod.sort', $category->id) }}" class="ml-auto text-dark"> <h3>See All</h3></a>
+        </div>
+        
+        @empty
+          <div></div>
+        @endforelse
+          <div class="row">
+            @foreach ($popular as $product)
+              <div class="col-6 col-md-4 col-lg-2 item container">
+                <div class="card">
+                  <a href="{{ route('products.show', $product->id) }}" class="text-black">
+                    @if ($product->images->count() > 0)
+                    <img style="height:200px; width:200px; object-fit:contain;" src="{{ asset('images/' . $product->images[0]->filename) }}" class="card-img-top image-responsive img-fluid" alt="{{ $product->title }}">
+                    @else
+                      <img src="placeholder.jpg" class="card-img-top img-fluid" alt="Placeholder Image">
+                    @endif
+                    <div class="card-body">
+                      <h5 class="card-title text-dark">{{ $product->title }}</h5>
+                      <p class="card-text text-dark">{{ $product->description }}</p>
+                      <button class="add-to-cart btn" style="display: none">
+                        <a href="/add-to-cart/{{ $product->id }}" class="text-white">Add to Cart</a>
+                      </button>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            @endforeach
+          </div>
+          
+      </div>
+      <div class="container-fluid p-0">
+        @forelse ($category2 as $category )
+        <div class="text-center mt-4 d-flex justify-content-between align-items-center" style=" background-color: #F2884B; ">
+          <h2 style="color: black; padding: 10px; margin-right: auto;">{{$category->name}}</h2>
+          <a href="{{ route('prod.sort', $category->id) }}" class="ml-auto text-dark"> <h3>See All</h3></a>
+        </div>
+        
+        @empty
+          <div></div>
+        @endforelse
+          <div class="row">
+            @foreach ($popular as $product)
+              <div class="col-6 col-md-4 col-lg-2 item container">
+                <div class="card">
+                  <a href="{{ route('products.show', $product->id) }}" class="text-black">
+                    @if ($product->images->count() > 0)
+                    <img style="height:200px; width:200px; object-fit:contain;" src="{{ asset('images/' . $product->images[0]->filename) }}" class="card-img-top image-responsive img-fluid" alt="{{ $product->title }}">
+                    @else
+                      <img src="placeholder.jpg" class="card-img-top img-fluid" alt="Placeholder Image">
+                    @endif
+                    <div class="card-body">
+                      <h5 class="card-title text-dark">{{ $product->title }}</h5>
+                      <p class="card-text text-dark">{{ $product->description }}</p>
+                      <button class="add-to-cart btn" style="display: none">
+                        <a href="/add-to-cart/{{ $product->id }}" class="text-white">Add to Cart</a>
+                      </button>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            @endforeach
+          </div>
+          
+      </div>
+      <div class="container-fluid p-0">
+        @forelse ($category2 as $category )
+        <div class="text-center mt-4 d-flex justify-content-between align-items-center" style=" background-color: #F2884B; ">
+          <h2 style="color: black; padding: 10px; margin-right: auto;">{{$category->name}}</h2>
+          <a href="{{ route('prod.sort', $category->id) }}" class="ml-auto text-dark"> <h3>See All</h3></a>
+        </div>
+        
+        @empty
+          <div></div>
+        @endforelse
+          <div class="row">
+            @foreach ($popular as $product)
+              <div class="col-6 col-md-4 col-lg-2 item container">
+                <div class="card">
+                  <a href="{{ route('products.show', $product->id) }}" class="text-black">
+                    @if ($product->images->count() > 0)
+                    <img style="height:200px; width:200px; object-fit:contain;" src="{{ asset('images/' . $product->images[0]->filename) }}" class="card-img-top image-responsive img-fluid" alt="{{ $product->title }}">
+                    @else
+                      <img src="placeholder.jpg" class="card-img-top img-fluid" alt="Placeholder Image">
+                    @endif
+                    <div class="card-body">
+                      <h5 class="card-title text-dark">{{ $product->title }}</h5>
+                      <p class="card-text text-dark">{{ $product->description }}</p>
+                      <button class="add-to-cart btn" style="display: none">
+                        <a href="/add-to-cart/{{ $product->id }}" class="text-white">Add to Cart</a>
+                      </button>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            @endforeach
+          </div>
+          
+      </div>
     
     <!-- end footer -->
       @include('layouts.footerclient')
@@ -180,7 +410,9 @@ button.navbar-toggler {
           );
         });
       </script>
-      
+ @livewireStyles
+ @livewireScripts
+ 
 </body>
 
 

@@ -1,5 +1,5 @@
   <!-- footer -->
-  <footer class="bg-light py-3">
+  <footer class="bg-light py-3 mt-4">
     <div class="container">
       <div class="row">
         <div class="col-sm-3">
@@ -20,17 +20,23 @@
           </ul>
         </div>
         <div class="col-sm-3">
-          <h5>Subscribe</h5>
-          <form>
+          {{-- <h5>Subscribe</h5>
+          <form style="display:hidden;">
             <div class="form-group">
               <input type="email" class="form-control" placeholder="Enter email">
             </div>
             <button type="submit" class="btn btn-secondary btn-block">Subscribe</button>
-          </form>
+          </form> --}}
         </div>
         <div class="col-sm-3">
-          <p class="text-muted">&copy; 2023 Company Name</p>
+          <p class="text-muted">&copy; <span id="year"></span> Celtec </p>
         </div>
       </div>
     </div>
+    
+<script>
+  const currentYear = new Date().getFullYear();
+  document.getElementById("year").textContent = currentYear;
+</script>
+
   </footer>

@@ -103,10 +103,10 @@ button.navbar-toggler {
         <table class="table table-hover table-condensed">
             <thead>
                 <tr>
-                    <th style="width:50%">{{__('Product')}}</th>
-                    <th style="width:10%">{{__('Price')}}</th>
-                    <th style="width:8%">{{__('Quantity')}}</th>
-                    <th style="width:22%" class="text-center">{{__('Subtotal')}}</th>
+                    <th style="width:40%">{{__('Product')}}</th>
+                    <th style="width:15%">{{__('Price')}}</th>
+                    <th style="width:10%">{{__('Quantity')}}</th>
+                    <th style="width:25%" class="text-center">{{__('Subtotal')}}</th>
                     <th style="width:10%"></th>
                 </tr>
             </thead>
@@ -153,23 +153,27 @@ button.navbar-toggler {
                 <tr>
                     <td>
                         <form action="/checkout" method="post">
-
                             @csrf
                             <div class="form-top1">
-        
                                 <div class="form-top">
                                     <div class="form-top-left">
-                                        <input type="text" name="location" id="location" placeholder="{{__('Location')}}" required="">
-                                        <input type="number" name="number" placeholder="{{__('Your phone number')}}" required="">
-        
+                                        <input type="text" name="name" placeholder="{{__('Your ID names')}}" required class="form-control">
+                                        <label for="location">{{__('Select location to be delivered')}}</label>
+                                        <select name="location" id="location"   class="form-control" required>
+                                            @foreach ($location as $location)
+                                                <option value="{{ $location->id}}">{{ $location->location }} Delivery Fee:sh {{ $location->price }}</option>
+                                            @endforeach
+                                        </select>
+                                        <input type="number" name="number" placeholder="{{__('Your phone number')}}" required class="form-control mt-3">
                                     </div>
-        
                                 </div>
                                 <div class="text-center mt-5">
-                                    <button type="submit" class="btn btn-style btn-primary">{{__('CONFIRM PURCHASE')}}<i class="far fa-paper-plane ml-lg-3"></i></button>
+                                    <button type="submit" class="btn btn-primary">{{__('CONFIRM PURCHASE')}} <i class="far fa-paper-plane ml-lg-3"></i></button>
                                 </div>
                             </div>
                         </form>
+                        
+                        
                     </td>
                 </tr>
             </tfoot>

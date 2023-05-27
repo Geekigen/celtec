@@ -17,8 +17,15 @@ class ProductsComponent extends Component
     public $quantity;
     public $isFeatured;
     public $categoryId;
+    public $size;
+    public $ram;
+    public $color;
+    public $storageType;
+    public $processor;
+    public $cores;
     public $selectedProductId;
     public $images = [];
+    
 
     protected $rules = [
         'title' => 'required',
@@ -27,8 +34,15 @@ class ProductsComponent extends Component
         'quantity' => 'required|integer|min:0',
         'isFeatured' => 'boolean',
         'categoryId' => 'required|exists:categories,id',
-        'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        'size' => 'string',
+        'ram' => 'string',
+        'color' => 'string',
+        'storageType' => 'string',
+        'processor' => 'string',
+        'cores' => 'string',
+        'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:200048',
     ];
+    
 
     public function render()
     {
@@ -50,27 +64,39 @@ class ProductsComponent extends Component
             'quantity' => $this->quantity,
             'is_featured' => $this->isFeatured,
             'category_id' => $this->categoryId,
+            'size' => $this->size,
+            'ram' => $this->ram,
+            'color' => $this->color,
+            'storage_type' => $this->storageType,
+            'processor' => $this->processor,
+            'cores' => $this->cores,
         ]);
-
+        
         $this->uploadImages($product);
 
         $this->resetInput();
     }
-
     public function editProduct($productId)
     {
+        $this->selectedProductId = $productId;
         $product = Product::find($productId);
-
+    
         if ($product) {
-            $this->selectedProductId = $productId;
             $this->title = $product->title;
             $this->description = $product->description;
             $this->price = $product->price;
             $this->quantity = $product->quantity;
             $this->isFeatured = $product->is_featured;
             $this->categoryId = $product->category_id;
+            $this->size = $product->size;
+            $this->ram = $product->ram;
+            $this->color = $product->color;
+            $this->storageType = $product->storage_type;
+            $this->processor = $product->processor;
+            $this->cores = $product->cores;
         }
     }
+    
 
     public function updateProduct()
     {
@@ -86,12 +112,19 @@ class ProductsComponent extends Component
                 'quantity' => $this->quantity,
                 'is_featured' => $this->isFeatured,
                 'category_id' => $this->categoryId,
+                'size' => $this->size,
+                'ram' => $this->ram,
+                'color' => $this->color,
+                'storage_type' => $this->storageType,
+                'processor' => $this->processor,
+                'cores' => $this->cores,
             ]);
-
+        
             $this->uploadImages($product);
-
+        
             $this->resetInput();
         }
+        
     }
 
     public function deleteProduct($productId)
@@ -113,7 +146,14 @@ class ProductsComponent extends Component
         $this->categoryId = null;
         $this->selectedProductId = null;
         $this->images = [];
+        $this->size = '';
+        $this->ram = '';
+        $this->color = '';
+        $this->storageType = '';
+        $this->processor = '';
+        $this->cores = '';
     }
+    
 
     private function uploadImages($product)
     {
