@@ -17,9 +17,11 @@
         @error('quantity') <span class="text-red-500">{{ $message }}</span> @enderror
     
         <label class="flex items-center mb-2">
-            <input type="checkbox" wire:model="isFeatured" class="form-checkbox rounded text-blue-500 focus:outline-none" />
+            <input type="hidden" name="isFeatured" value="0">
+            <input type="checkbox" name="isFeatured" value="1" wire:model="isFeatured" class="form-checkbox rounded text-blue-500 focus:outline-none" />
             <span class="ml-2 text-sm">Featured</span>
         </label>
+        
     
         <select wire:model="categoryId" class="rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 mb-2">
             <option value="">Select category</option>
@@ -29,7 +31,7 @@
         </select>
         @error('categoryId') <span class="text-red-500">{{ $message }}</span> @enderror
     
-        <input type="file" wire:model="images" class="mt-2" multiple />
+        <input  wire:model="images" class="mt-2" multiple type="hidden" />
         @error('images.*') <span class="text-red-500">{{ $message }}</span> @enderror
     
         <!-- Display image previews -->
@@ -119,6 +121,7 @@
                         @endif
                     </td>
                     <td class="border-b px-2 py-1">
+                        <button  class="rounded-md px-2 py-1 bg-blue-500 text-white focus:outline-none text-xs"><a href="/products/{{ $product->id }}/edit">Add Image</a></button>
                         <button wire:click="editProduct({{ $product->id }})" class="rounded-md px-2 py-1 bg-blue-500 text-white focus:outline-none text-xs">Edit</button>
                         <button wire:click="deleteProduct({{ $product->id }})" class="ml-2 rounded-md px-2 py-1 bg-red-500 text-white focus:outline-none text-xs">Delete</button>
                     </td>

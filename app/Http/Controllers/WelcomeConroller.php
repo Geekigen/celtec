@@ -22,7 +22,7 @@ class WelcomeConroller extends Controller
         $category3 = Category::where('id', 3)->get();
         $category4 = Category::where('id', 4)->get();
         $category5 = Category::where('id', 5)->get();
-        $category6 = Category::where('id', 6)->get();
+        $category6 = Category::where('id', 4)->get();
         // 
         $popular = Product::where('is_featured', 1)
     ->inRandomOrder()
@@ -30,27 +30,27 @@ class WelcomeConroller extends Controller
     ->get();
     $cat1 = Product::where('category_id', 1)
     ->inRandomOrder()
-    ->take(6)
+    ->take(4)
     ->get();
     $cat2 = Product::where('category_id', 2)
     ->inRandomOrder()
-    ->take(6)
+    ->take(4)
     ->get();
     $cat3 = Product::where('category_id', 3)
     ->inRandomOrder()
-    ->take(6)
+    ->take(4)
     ->get();
     $cat4 = Product::where('category_id', 4)
     ->inRandomOrder()
-    ->take(6)
+    ->take(4)
     ->get();
     $cat5 = Product::where('category_id', 5)
     ->inRandomOrder()
-    ->take(6)
+    ->take(4)
     ->get();
     $cat6 = Product::where('category_id', 6)
     ->inRandomOrder()
-    ->take(6)
+    ->take(4)
     ->get();
         
         return view('welcome', compact

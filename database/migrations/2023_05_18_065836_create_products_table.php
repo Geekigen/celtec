@@ -18,7 +18,7 @@ return new class extends Migration
             $table->decimal('price', 8, 2);
             $table->integer('quantity');
             $table->string('category_id');
-            $table->boolean('is_featured')->default(false);
+            $table->boolean('is_featured')->nullable();
             $table->timestamps();
         });
     }

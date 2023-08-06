@@ -32,7 +32,7 @@ class ProductsComponent extends Component
         'description' => 'required',
         'price' => 'required|numeric|min:0',
         'quantity' => 'required|integer|min:0',
-        'isFeatured' => 'boolean',
+        'isFeatured' => 'nullable|boolean', // 'nullable' makes the field optional
         'categoryId' => 'required|exists:categories,id',
         'size' => 'string',
         'ram' => 'string',
@@ -42,6 +42,7 @@ class ProductsComponent extends Component
         'cores' => 'string',
         'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:200048',
     ];
+    
     
 
     public function render()

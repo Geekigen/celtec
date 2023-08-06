@@ -66,7 +66,7 @@
             <a class="nav-link text-white" href="/category">Add categories</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" href="/adimage-upload">Add ads</a>
+            <a class="nav-link text-white" href="/imageads">Add ads</a>
           </li>
           <li class="nav-item">
             <a class="nav-link text-white" href="/adimage-upload">create blog</a>

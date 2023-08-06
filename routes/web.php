@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ClientOrderController;
+use App\Http\Controllers\ImageAdcontroller;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RatingController;
@@ -59,7 +60,8 @@ Route::get('/blogs/{id}', [BlogController::class, 'show'])->name('blog.show');
 });
 // admin
 Route::middleware('auth','admin')->group(function () {
-    Route::get('/adimage-upload', ImageAd::class)->name('adimage.upload');
+    Route::resource('imageads', ImageAdController::class);
+    // Route::get('/', ImageAd::class)->name('adimage.upload');
     Route::get('/writeblog', BlogComponent::class)->name('writeblog');
     Route::get('/category', CategoriesComponent::class)->name('categories');
     Route::get('/createprod', ProductsComponent::class)->name('products');

@@ -62,18 +62,40 @@ class ProductsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $Product =Product::findOrFail($id);
+        return view('products.edit', compact('Product'));
     }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-    {
-        //
+{
+    $validatedData = $request->validate([
+        'filename.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    ]);
+
+    $product = Product::findOrFail($id);
+
+    if ($request->hasFile('filename')) {
+        $images = $request->file('filename');
+
+        foreach ($images as $image) {
+            $image_name = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('filename'), $image_name);
+            $validatedData['filename'][] = $image_name;
+
+            $product->images()->create([
+                'filename' => $image_name,
+            ]);
+        }
     }
+
+    return redirect('/admin');
+}
+
 
     /**
      * Remove the specified resource from storage.
