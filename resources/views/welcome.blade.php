@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>celtec electronics</title>
+    @laravelPWA
     <meta name="description" content="celtec electronics">
     <meta name="keywords" content="celtec electronics">
     
@@ -70,7 +71,7 @@
             position: fixed;
             top: 0;
             width: 100%;
-  background-color:#051326;
+  background-color:#0D0D0D;
             z-index: 1000; /* Adjust as needed */
         }
       
@@ -95,16 +96,69 @@
             <input class="hidden" type="checkbox" id="menu-toggle" />
 
             <div class="hidden md:flex md:items-center md:w-auto w-full order-3 md:order-1" id="menu">
-                <nav>
-                    <ul class="md:flex items-center justify-between text-base text-gray-700 pt-4 md:pt-0">
-                        <li><a class="inline-block no-underline text-white  hover:text-white hover:underline py-2 px-4" href="#">Home</a></li>
-                        <li><a class="inline-block no-underline text-white  hover:text-white hover:underline py-2 px-4" href="#">All Products</a></li>
+              <nav>
+                <ul class="md:flex items-center justify-between text-base text-gray-700 pt-4 md:pt-0">
+                    <li><a class="inline-block no-underline text-white hover:text-white hover:underline py-2 px-4" href="/">Home</a></li>
+                    <li><a class="inline-block no-underline text-white hover:text-white hover:underline py-2 px-4" href="#">All Products</a></li>
+                    <li><a class="inline-block no-underline text-white hover:text-white hover:underline py-2 px-4" href="/myorders">Orders</a></li>
+                    <li><a class="inline-block no-underline text-white hover:text-white hover:underline py-2 px-4" href="">Blogs</a></li>
                     
-                        <li><a class="inline-block no-underline  text-white hover:text-white hover:underline py-2 px-4" href="#">Orders</a></li>
-                    
-                        <li><a class="inline-block no-underline  text-white hover:text-white hover:underline py-2 px-4" href="#">Blogs</a></li>
-                   
-                </nav>
+                    <li class="relative group">
+                      <a class="inline-block no-underline text-white hover:text-white hover:underline py-2 px-4" href="#">Categories</a>
+                      <ul class="absolute hidden bg-white text-gray-700 mt-2 p-2 rounded-lg group-hover:block transition duration-300 ease-in-out delay-150">   <!-- Loop through categories and generate links -->
+                            @foreach ($categories as $category)
+                                <li><a class="block px-2 py-1 hover:text-gray-900" href="{{ route('prod.sort', $category->id) }}">{{ $category->name }}</a></li>
+                            @endforeach
+                        </ul>
+                    </li>
+                    <li>
+                      <div >
+                        @guest
+                        
+                            <a href="{{ route('login') }}" class="text-white hover:text-gray-200 px-4 py-2">
+                              <svg class="fill-current hover:text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <circle fill="none" cx="12" cy="7" r="3" />
+                                <path d="M12 2C9.243 2 7 4.243 7 7s2.243 5 5 5 5-2.243 5-5S14.757 2 12 2zM12 10c-1.654 0-3-1.346-3-3s1.346-3 3-3 3 1.346 3 3S13.654 10 12 10zM21 21v-1c0-3.859-3.141-7-7-7h-4c-3.86 0-7 3.141-7 7v1h2v-1c0-2.757 2.243-5 5-5h4c2.757 0 5 2.243 5 5v1H21z" />
+                            </svg> Login</a>
+                            <a href="{{ route('register') }}" class="text-white hover:text-gray-200 px-4 py-2">Register</a>
+                        @else
+                            <x-dropdown align="right" width="48">
+                                <x-slot name="trigger">
+                                    <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
+                                        <div>
+                                          <svg class="fill-current hover:text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                            <circle fill="none" cx="12" cy="7" r="3" />
+                                            <path d="M12 2C9.243 2 7 4.243 7 7s2.243 5 5 5 5-2.243 5-5S14.757 2 12 2zM12 10c-1.654 0-3-1.346-3-3s1.346-3 3-3 3 1.346 3 3S13.654 10 12 10zM21 21v-1c0-3.859-3.141-7-7-7h-4c-3.86 0-7 3.141-7 7v1h2v-1c0-2.757 2.243-5 5-5h4c2.757 0 5 2.243 5 5v1H21z" />
+                                        </svg> {{ Auth::user()->name }}</div>
+                                        <div class="ml-1">
+                                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd"
+                                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
+                                        </div>
+                                    </button>
+                                </x-slot>
+                                <x-slot name="content">
+                                  <a href="{{ route('profile.edit') }}"
+                                      class="block px-4 py-2 text-sm font-bold text-black dark:text-gray-300"
+                                      role="menuitem">Profile</a>
+                                  <form method="POST" action="{{ route('logout') }}">
+                                      @csrf
+                                      <button type="submit"
+                                          class="block w-full text-left px-4 py-2 text-sm font-bold text-black dark:text-gray-300"
+                                          role="menuitem">Log Out</button>
+                                  </form>
+                              </x-slot>
+                              
+                            </x-dropdown>
+                        @endguest
+                    </div>
+                    </li>
+                </ul>
+            </nav>
+            
             </div>
             <div class="relative">
               <form method="GET" action="{{ route('products.search') }}">
@@ -146,7 +200,7 @@
               <a href="{{ route('dashboard') }}" class="text-gray-800 flex items-center">
                   <x-application-logo class="block h-9 w-auto fill-current mr-2" />
                   <span class="no-underline hover:no-underline font-bold text-white text-xl">
-                      Celtec products
+                      Enjoy Shopping
                   </span>
               </a>
           </div>
@@ -154,16 +208,9 @@
 
             <div class="order-2 md:order-3 flex items-center" id="nav-content">
 
-                <a class="inline-block no-underline text-white hover:text-white" href="#">
-                    Account
-                    <svg class="fill-current hover:text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <circle fill="none" cx="12" cy="7" r="3" />
-                        <path d="M12 2C9.243 2 7 4.243 7 7s2.243 5 5 5 5-2.243 5-5S14.757 2 12 2zM12 10c-1.654 0-3-1.346-3-3s1.346-3 3-3 3 1.346 3 3S13.654 10 12 10zM21 21v-1c0-3.859-3.141-7-7-7h-4c-3.86 0-7 3.141-7 7v1h2v-1c0-2.757 2.243-5 5-5h4c2.757 0 5 2.243 5 5v1H21z" />
-                    </svg>
-                </a>
-
-                <a class="pl-3 inline-block no-underline text-white hover:text-black" href="#">
-                   Cart
+               
+                <a class="pl-3 inline-block no-underline text-white hover:text-black" href="/cart">
+                   Cart ({{ count((array) session('cart')) }})
                     <svg class="fill-current hover:text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                         <path d="M21,7H7.462L5.91,3.586C5.748,3.229,5.392,3,5,3H2v2h2.356L9.09,15.414C9.252,15.771,9.608,16,10,16h8 c0.4,0,0.762-0.238,0.919-0.606l3-7c0.133-0.309,0.101-0.663-0.084-0.944C21.649,7.169,21.336,7,21,7z M17.341,14h-6.697L8.371,9 h11.112L17.341,14z" />
                         <circle cx="10.5" cy="18.5" r="1.5" />
@@ -356,7 +403,294 @@ Alternatively if you want to just have a single hero
             </div>
 
     </section>
+     
+    <section class="bg-white py-8">
 
+      <div class="container mx-auto flex items-center flex-wrap pt-4 pb-12">
+
+          <nav id="store" class="w-full z-30 top-0 px-6 py-1">
+              @forelse ($category2 as $category)
+              <div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 px-2 py-3">
+
+                <div class="flex flex-col items-center space-y-4">
+                  <a class="uppercase tracking-wide no-underline hover:no-underline font-bold text-gray-800 text-xl bg-orange-500 py-2 px-4 rounded-lg" href="#">
+                    {{$category->name}}
+                  </a>
+                  
+                  <a class="text-orange-500 text-sm hover:underline" href="#">
+                   see more {{$category->name}}
+                  </a>
+              </div>
+
+                
+            </div>
+            @empty
+<div></div>
+@endforelse
+          </nav>
+
+          @foreach ($cat2 as $product)
+          <div class="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col hover:grow hover:shadow-orange">
+              <a href="{{ route('products.show', $product->id) }}">
+                  @if ($product->images->count() > 0)
+                  <img style="height:300px; width:300px; object-fit:contain;"  src="{{ asset('images/' . $product->images[0]->filename) }}" class="card-img-top image-responsive img-fluid" alt="{{ $product->title }} image">
+                
+                  
+                  @else
+                  <img class="hover:grow hover:shadow-lg" src="" alt="no image">
+                
+                  @endif
+                  <div class="pt-3 flex items-center justify-between">
+                      <p class="">{{ $product->title }}</p>
+                      <a href="/add-to-cart/{{ $product->id }}">
+                          Add to Cart
+                           <svg class="fill-current hover:text-black" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                               <path d="M21,7H7.462L5.91,3.586C5.748,3.229,5.392,3,5,3H2v2h2.356L9.09,15.414C9.252,15.771,9.608,16,10,16h8 c0.4,0,0.762-0.238,0.919-0.606l3-7c0.133-0.309,0.101-0.663-0.084-0.944C21.649,7.169,21.336,7,21,7z M17.341,14h-6.697L8.371,9 h11.112L17.341,14z" />
+                               <circle cx="10.5" cy="18.5" r="1.5" />
+                               <circle cx="17.5" cy="18.5" r="1.5" />
+                           </svg>
+                       </a>
+                  </div>
+                  <p class="pt-1 text-2xl font-bold text-red-600">Sh:{{ number_format($product->price, 0, '.', ',') }}</p>
+
+              </a>
+          </div>
+          @endforeach
+
+          
+          </div>
+
+  </section>
+  <section class="bg-white py-8">
+
+    <div class="container mx-auto flex items-center flex-wrap pt-4 pb-12">
+
+        <nav id="store" class="w-full z-30 top-0 px-6 py-1">
+            @forelse ($category3 as $category)
+            <div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 px-2 py-3">
+
+              <div class="flex flex-col items-center space-y-4">
+                <a class="uppercase tracking-wide no-underline hover:no-underline font-bold text-gray-800 text-xl bg-orange-500 py-2 px-4 rounded-lg" href="#">
+                  {{$category->name}}
+                </a>
+                
+                <a class="text-orange-500 text-sm hover:underline" href="#">
+                 see more {{$category->name}}
+                </a>
+            </div>
+
+              
+          </div>
+          @empty
+<div></div>
+@endforelse
+        </nav>
+
+        @foreach ($cat3 as $product)
+        <div class="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col hover:grow hover:shadow-orange">
+            <a href="{{ route('products.show', $product->id) }}">
+                @if ($product->images->count() > 0)
+                <img style="height:300px; width:300px; object-fit:contain;"  src="{{ asset('images/' . $product->images[0]->filename) }}" class="card-img-top image-responsive img-fluid" alt="{{ $product->title }} image">
+              
+                
+                @else
+                <img class="hover:grow hover:shadow-lg" src="" alt="no image">
+              
+                @endif
+                <div class="pt-3 flex items-center justify-between">
+                    <p class="">{{ $product->title }}</p>
+                    <a href="/add-to-cart/{{ $product->id }}">
+                        Add to Cart
+                         <svg class="fill-current hover:text-black" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                             <path d="M21,7H7.462L5.91,3.586C5.748,3.229,5.392,3,5,3H2v2h2.356L9.09,15.414C9.252,15.771,9.608,16,10,16h8 c0.4,0,0.762-0.238,0.919-0.606l3-7c0.133-0.309,0.101-0.663-0.084-0.944C21.649,7.169,21.336,7,21,7z M17.341,14h-6.697L8.371,9 h11.112L17.341,14z" />
+                             <circle cx="10.5" cy="18.5" r="1.5" />
+                             <circle cx="17.5" cy="18.5" r="1.5" />
+                         </svg>
+                     </a>
+                </div>
+                <p class="pt-1 text-2xl font-bold text-red-600">Sh:{{ number_format($product->price, 0, '.', ',') }}</p>
+
+            </a>
+        </div>
+        @endforeach
+
+        
+        </div>
+
+</section>
+
+<section class="bg-white py-8">
+
+  <div class="container mx-auto flex items-center flex-wrap pt-4 pb-12">
+
+      <nav id="store" class="w-full z-30 top-0 px-6 py-1">
+          @forelse ($category4 as $category)
+          <div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 px-2 py-3">
+
+            <div class="flex flex-col items-center space-y-4">
+              <a class="uppercase tracking-wide no-underline hover:no-underline font-bold text-gray-800 text-xl bg-orange-500 py-2 px-4 rounded-lg" href="#">
+                {{$category->name}}
+              </a>
+              
+              <a class="text-orange-500 text-sm hover:underline" href="#">
+               see more {{$category->name}}
+              </a>
+          </div>
+
+            
+        </div>
+        @empty
+<div></div>
+@endforelse
+      </nav>
+
+      @foreach ($cat4 as $product)
+      <div class="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col hover:grow hover:shadow-orange">
+          <a href="{{ route('products.show', $product->id) }}">
+              @if ($product->images->count() > 0)
+              <img style="height:300px; width:300px; object-fit:contain;"  src="{{ asset('images/' . $product->images[0]->filename) }}" class="card-img-top image-responsive img-fluid" alt="{{ $product->title }} image">
+            
+              
+              @else
+              <img class="hover:grow hover:shadow-lg" src="" alt="no image">
+            
+              @endif
+              <div class="pt-3 flex items-center justify-between">
+                  <p class="">{{ $product->title }}</p>
+                  <a href="/add-to-cart/{{ $product->id }}">
+                      Add to Cart
+                       <svg class="fill-current hover:text-black" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                           <path d="M21,7H7.462L5.91,3.586C5.748,3.229,5.392,3,5,3H2v2h2.356L9.09,15.414C9.252,15.771,9.608,16,10,16h8 c0.4,0,0.762-0.238,0.919-0.606l3-7c0.133-0.309,0.101-0.663-0.084-0.944C21.649,7.169,21.336,7,21,7z M17.341,14h-6.697L8.371,9 h11.112L17.341,14z" />
+                           <circle cx="10.5" cy="18.5" r="1.5" />
+                           <circle cx="17.5" cy="18.5" r="1.5" />
+                       </svg>
+                   </a>
+              </div>
+              <p class="pt-1 text-2xl font-bold text-red-600">Sh:{{ number_format($product->price, 0, '.', ',') }}</p>
+
+          </a>
+      </div>
+      @endforeach
+
+      
+      </div>
+
+</section>
+<section class="bg-white py-8">
+
+  <div class="container mx-auto flex items-center flex-wrap pt-4 pb-12">
+
+      <nav id="store" class="w-full z-30 top-0 px-6 py-1">
+          @forelse ($category5 as $category)
+          <div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 px-2 py-3">
+
+            <div class="flex flex-col items-center space-y-4">
+              <a class="uppercase tracking-wide no-underline hover:no-underline font-bold text-gray-800 text-xl bg-orange-500 py-2 px-4 rounded-lg" href="#">
+                {{$category->name}}
+              </a>
+              
+              <a class="text-orange-500 text-sm hover:underline" href="#">
+               see more {{$category->name}}
+              </a>
+          </div>
+
+            
+        </div>
+        @empty
+<div></div>
+@endforelse
+      </nav>
+
+      @foreach ($cat5 as $product)
+      <div class="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col hover:grow hover:shadow-orange">
+          <a href="{{ route('products.show', $product->id) }}">
+              @if ($product->images->count() > 0)
+              <img style="height:300px; width:300px; object-fit:contain;"  src="{{ asset('images/' . $product->images[0]->filename) }}" class="card-img-top image-responsive img-fluid" alt="{{ $product->title }} image">
+            
+              
+              @else
+              <img class="hover:grow hover:shadow-lg" src="" alt="no image">
+            
+              @endif
+              <div class="pt-3 flex items-center justify-between">
+                  <p class="">{{ $product->title }}</p>
+                  <a href="/add-to-cart/{{ $product->id }}">
+                      Add to Cart
+                       <svg class="fill-current hover:text-black" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                           <path d="M21,7H7.462L5.91,3.586C5.748,3.229,5.392,3,5,3H2v2h2.356L9.09,15.414C9.252,15.771,9.608,16,10,16h8 c0.4,0,0.762-0.238,0.919-0.606l3-7c0.133-0.309,0.101-0.663-0.084-0.944C21.649,7.169,21.336,7,21,7z M17.341,14h-6.697L8.371,9 h11.112L17.341,14z" />
+                           <circle cx="10.5" cy="18.5" r="1.5" />
+                           <circle cx="17.5" cy="18.5" r="1.5" />
+                       </svg>
+                   </a>
+              </div>
+              <p class="pt-1 text-2xl font-bold text-red-600">Sh:{{ number_format($product->price, 0, '.', ',') }}</p>
+
+          </a>
+      </div>
+      @endforeach
+
+      
+      </div>
+
+</section>
+
+<section class="bg-white py-8">
+
+  <div class="container mx-auto flex items-center flex-wrap pt-4 pb-12">
+
+      <nav id="store" class="w-full z-30 top-0 px-6 py-1">
+          @forelse ($category6 as $category)
+          <div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 px-2 py-3">
+
+            <div class="flex flex-col items-center space-y-4">
+              <a class="uppercase tracking-wide no-underline hover:no-underline font-bold text-gray-800 text-xl bg-orange-500 py-2 px-4 rounded-lg" href="#">
+                {{$category->name}}
+              </a>
+              
+              <a class="text-orange-500 text-sm hover:underline" href="#">
+               see more {{$category->name}}
+              </a>
+          </div>
+
+            
+        </div>
+        @empty
+<div></div>
+@endforelse
+      </nav>
+
+      @foreach ($cat6 as $product)
+      <div class="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col hover:grow hover:shadow-orange">
+          <a href="{{ route('products.show', $product->id) }}">
+              @if ($product->images->count() > 0)
+              <img style="height:300px; width:300px; object-fit:contain;"  src="{{ asset('images/' . $product->images[0]->filename) }}" class="card-img-top image-responsive img-fluid" alt="{{ $product->title }} image">
+            
+              
+              @else
+              <img class="hover:grow hover:shadow-lg" src="" alt="no image">
+            
+              @endif
+              <div class="pt-3 flex items-center justify-between">
+                  <p class="">{{ $product->title }}</p>
+                  <a href="/add-to-cart/{{ $product->id }}">
+                      Add to Cart
+                       <svg class="fill-current hover:text-black" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                           <path d="M21,7H7.462L5.91,3.586C5.748,3.229,5.392,3,5,3H2v2h2.356L9.09,15.414C9.252,15.771,9.608,16,10,16h8 c0.4,0,0.762-0.238,0.919-0.606l3-7c0.133-0.309,0.101-0.663-0.084-0.944C21.649,7.169,21.336,7,21,7z M17.341,14h-6.697L8.371,9 h11.112L17.341,14z" />
+                           <circle cx="10.5" cy="18.5" r="1.5" />
+                           <circle cx="17.5" cy="18.5" r="1.5" />
+                       </svg>
+                   </a>
+              </div>
+              <p class="pt-1 text-2xl font-bold text-red-600">Sh:{{ number_format($product->price, 0, '.', ',') }}</p>
+
+          </a>
+      </div>
+      @endforeach
+
+      
+      </div>
+
+</section>
     <footer class="bg-white">
         <div class="mx-auto max-w-screen-xl px-4 pb-8 pt-16 sm:px-6 lg:px-8 lg:pt-24">
          
@@ -367,27 +701,22 @@ Alternatively if you want to just have a single hero
             <ul class="flex flex-wrap justify-center gap-4 text-xs lg:justify-end">
               <li>
                 <a href="#" class="text-gray-500 transition hover:opacity-75">
-                  Terms & Conditions
+                  CALL O722452517
                 </a>
               </li>
       
               <li>
                 <a href="#" class="text-gray-500 transition hover:opacity-75">
-                  Privacy Policy
+                 lOCATION : Nandi arcade eldoret shop no29
                 </a>
               </li>
       
-              <li>
-                <a href="#" class="text-gray-500 transition hover:opacity-75">
-                  Cookies
-                </a>
-              </li>
             </ul>
       
             <ul class="mt-8 flex justify-center gap-6 sm:mt-0 lg:justify-end">
               <li>
                 <a
-                  href="/"
+                  href="https://www.facebook.com/CeltecE"
                   rel="noreferrer"
                   target="_blank"
                   class="text-gray-700 transition hover:opacity-75"
@@ -455,53 +784,9 @@ Alternatively if you want to just have a single hero
                 </a>
               </li>
       
-              <li>
-                <a
-                  href="/"
-                  rel="noreferrer"
-                  target="_blank"
-                  class="text-gray-700 transition hover:opacity-75"
-                >
-                  <span class="sr-only">GitHub</span>
+           
       
-                  <svg
-                    class="h-6 w-6"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                </a>
-              </li>
-      
-              <li>
-                <a
-                  href="/"
-                  rel="noreferrer"
-                  target="_blank"
-                  class="text-gray-700 transition hover:opacity-75"
-                >
-                  <span class="sr-only">Dribbble</span>
-      
-                  <svg
-                    class="h-6 w-6"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c5.51 0 10-4.48 10-10S17.51 2 12 2zm6.605 4.61a8.502 8.502 0 011.93 5.314c-.281-.054-3.101-.629-5.943-.271-.065-.141-.12-.293-.184-.445a25.416 25.416 0 00-.564-1.236c3.145-1.28 4.577-3.124 4.761-3.362zM12 3.475c2.17 0 4.154.813 5.662 2.148-.152.216-1.443 1.941-4.48 3.08-1.399-2.57-2.95-4.675-3.189-5A8.687 8.687 0 0112 3.475zm-3.633.803a53.896 53.896 0 013.167 4.935c-3.992 1.063-7.517 1.04-7.896 1.04a8.581 8.581 0 014.729-5.975zM3.453 12.01v-.26c.37.01 4.512.065 8.775-1.215.25.477.477.965.694 1.453-.109.033-.228.065-.336.098-4.404 1.42-6.747 5.303-6.942 5.629a8.522 8.522 0 01-2.19-5.705zM12 20.547a8.482 8.482 0 01-5.239-1.8c.152-.315 1.888-3.656 6.703-5.337.022-.01.033-.01.054-.022a35.318 35.318 0 011.823 6.475 8.4 8.4 0 01-3.341.684zm4.761-1.465c-.086-.52-.542-3.015-1.659-6.084 2.679-.423 5.022.271 5.314.369a8.468 8.468 0 01-3.655 5.715z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                </a>
-              </li>
+              
             </ul>
           </div>
         </div>

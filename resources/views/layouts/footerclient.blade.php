@@ -1,42 +1,35 @@
-  <!-- footer -->
-  <footer class="bg-light py-3 mt-4">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-3">
-          <h5>Quick Links</h5>
-          <ul class="list-unstyled">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="/admin">Admin</a></li>
-          </ul>
-        </div>
-        <div class="col-sm-3">
-          <h5>Follow Us</h5>
-          <ul class="list-unstyled">
-            <li><a href="#">Facebook</a></li>
-            <li><a href="#">Twitter</a></li>
-            <li><a href="#">Instagram</a></li>
-          </ul>
-        </div>
-        <div class="col-sm-3">
-          {{-- <h5>Subscribe</h5>
-          <form style="display:hidden;">
-            <div class="form-group">
-              <input type="email" class="form-control" placeholder="Enter email">
-            </div>
-            <button type="submit" class="btn btn-secondary btn-block">Subscribe</button>
-          </form> --}}
-        </div>
-        <div class="col-sm-3">
-          <p class="text-muted">&copy; <span id="year"></span> Celtec </p>
-        </div>
-      </div>
+<div class="container my-5">
+
+  <section class="">
+  <!-- Footer -->
+  <footer class="text-center text-white" style="background-color: #0a4275;">
+    <!-- Grid container -->
+    <div class="container p-4 pb-0">
+      <!-- Section: CTA -->
+      <section class="">
+        <p class="d-flex justify-content-center align-items-center">
+          <span class="me-3">Register for free</span>
+          <button type="button" class="btn btn-outline-light btn-rounded">
+            Sign up!
+          </button>
+        </p>
+      </section>
+      <!-- Section: CTA -->
     </div>
-    
+    <!-- Grid container -->
+
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+      © <span  id="year"></span> Copyright:
+      <a class="text-white" href="https://malaptop.co.ke/">Malaptop.co.ke</a>
+    </div>
+    <!-- Copyright -->
+  </footer>
+  <!-- Footer -->
+</section>
+  
 <script>
   const currentYear = new Date().getFullYear();
   document.getElementById("year").textContent = currentYear;
 </script>
-
-  </footer>
+</div>

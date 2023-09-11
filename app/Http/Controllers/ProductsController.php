@@ -52,11 +52,12 @@ class ProductsController extends Controller
         // Handle case when the product is not found
         abort(404);
     }
+    $categories = Category::get();
     $similarProducts = Product::where('category_id', $product->category_id)
     ->where('id', '!=', $product->id)
     ->get();
 
-    return view('products.show', compact('product','similarProducts'));
+    return view('products.show', compact('product','similarProducts','categories'));
     }
 
     /**

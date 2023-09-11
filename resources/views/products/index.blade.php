@@ -40,7 +40,7 @@
 }
 
             .navbar{
-  background-color:#051326
+  background-color:#0D0D0D;
 }
 button.navbar-toggler {
  color: white !important;

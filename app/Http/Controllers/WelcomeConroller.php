@@ -12,7 +12,7 @@ class WelcomeConroller extends Controller
 
 
     public function welcome(){
-        $categories = Category::paginate('3');
+        $categories = Category::get();
        $Ads=ImageAd::inRandomOrder()
        ->take(3)
        ->get();
